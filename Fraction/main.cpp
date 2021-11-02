@@ -101,13 +101,13 @@ public: //паблик секция, в ней реализуем get/set мет
 
 	//Операторы ввода/вывода
 	//Оператор вывода cout
-	ostream& operator << (ostream& os, const Point& obj)
+	ostream& operator << (ostream& os, const Fraction& obj)
 	{
 		os << obj.get_integer() << "\t" << obj.get_numerator() << "\t" << obj.get_denominator();
 		return os;
 	}
 	//оператор ввода cin
-	istream& operator >> (istream& is, Point& obj)
+	istream& operator >> (istream& is, Fraction& obj)
 	{
 		int integer, numerator, denominator;
 		is >> integer >> numerator >> denominator;
@@ -179,6 +179,13 @@ void main()
 	A.print();
 	A.reduce();
 	A.print();
+
+	
+
+	cout << A << endl;
+	cout << "Введите координаты точки А: ";
+	cin >> A;
+	cout << A << endl;
 }
 
 Fraction operator+(const Fraction& left, const Fraction& right)
