@@ -1,14 +1,14 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
-//FRACTION - (дробь) описываем простую дробь
+//FRACTION - (РґСЂРѕР±СЊ) РѕРїРёСЃС‹РІР°РµРј РїСЂРѕСЃС‚СѓСЋ РґСЂРѕР±СЊ
 
 class Fraction
 {
-	int integer;		//Целая часть
-	int numerator;		//Числитель
-	int denominator;	//Знаменатель
-public: //паблик секция, в ней реализуем get/set методы
+	int integer;		//Р¦РµР»Р°СЏ С‡Р°СЃС‚СЊ
+	int numerator;		//Р§РёСЃР»РёС‚РµР»СЊ
+	int denominator;	//Р—РЅР°РјРµРЅР°С‚РµР»СЊ
+public: //РїР°Р±Р»РёРє СЃРµРєС†РёСЏ, РІ РЅРµР№ СЂРµР°Р»РёР·СѓРµРј get/set РјРµС‚РѕРґС‹
 
 	int get_integer()const
 	{
@@ -37,10 +37,10 @@ public: //паблик секция, в ней реализуем get/set методы
 		this->denominator = denominator;
 	}
 
-							//Constructors - идут после get/set методов
-	Fraction() //Это типа перегруженная функция для конструктора по умолчанию. Перегруженная
+							//Constructors - РёРґСѓС‚ РїРѕСЃР»Рµ get/set РјРµС‚РѕРґРѕРІ
+	Fraction() //Р­С‚Рѕ С‚РёРїР° РїРµСЂРµРіСЂСѓР¶РµРЅРЅР°СЏ С„СѓРЅРєС†РёСЏ РґР»СЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ. РџРµСЂРµРіСЂСѓР¶РµРЅРЅР°СЏ
 	{
-		//Здесь все значения равны нулю
+		//Р—РґРµСЃСЊ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ СЂР°РІРЅС‹ РЅСѓР»СЋ
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
@@ -48,7 +48,7 @@ public: //паблик секция, в ней реализуем get/set методы
 	}
 	Fraction(int integer)
 	{
-		//single-argument constructor - конструктор с одним параметром
+		//single-argument constructor - РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РѕРґРЅРёРј РїР°СЂР°РјРµС‚СЂРѕРј
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
@@ -56,7 +56,7 @@ public: //паблик секция, в ней реализуем get/set методы
 	}
 	Fraction(int numerator, int denominator)
 	{
-		//а здесь выводится обычная дробь без целого значения
+		//Р° Р·РґРµСЃСЊ РІС‹РІРѕРґРёС‚СЃСЏ РѕР±С‹С‡РЅР°СЏ РґСЂРѕР±СЊ Р±РµР· С†РµР»РѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 		this->integer = 0;
 		this->numerator = numerator;
 		set_denominator(denominator);
@@ -98,12 +98,15 @@ public: //паблик секция, в ней реализуем get/set методы
 		this->denominator += other.denominator;
 		return *this;
 	}
+
+	//РћРїРµСЂР°С‚РѕСЂС‹ РІРІРѕРґР°/РІС‹РІРѕРґР°
+	//РћРїРµСЂР°С‚РѕСЂ РІС‹РІРѕРґР° cout
 	ostream& operator << (ostream& os, const Point& obj)
 	{
 		os << obj.get_integer() << "\t" << obj.get_numerator() << "\t" << obj.get_denominator();
 		return os;
 	}
-
+	//РѕРїРµСЂР°С‚РѕСЂ РІРІРѕРґР° cin
 	istream& operator >> (istream& is, Point& obj)
 	{
 		int integer, numerator, denominator;
@@ -116,19 +119,19 @@ public: //паблик секция, в ней реализуем get/set методы
 	//Methods
 	void to_proper()
 	{
-		//Переводит дробь в правильную - выделяет целую часть:
+		//РџРµСЂРµРІРѕРґРёС‚ РґСЂРѕР±СЊ РІ РїСЂР°РІРёР»СЊРЅСѓСЋ - РІС‹РґРµР»СЏРµС‚ С†РµР»СѓСЋ С‡Р°СЃС‚СЊ:
 		integer += numerator / denominator;
 		numerator %= denominator;
 	}
 	void to_improper()
 	{
-		//Переводит дробь в неправильную - интегрирует целую часть в числитель
+		//РџРµСЂРµРІРѕРґРёС‚ РґСЂРѕР±СЊ РІ РЅРµРїСЂР°РІРёР»СЊРЅСѓСЋ - РёРЅС‚РµРіСЂРёСЂСѓРµС‚ С†РµР»СѓСЋ С‡Р°СЃС‚СЊ РІ С‡РёСЃР»РёС‚РµР»СЊ
 		numerator += integer * denominator;
 		integer = 0;
 	}
 	void reduce()
 	{
-		//сокращает дробь
+		//СЃРѕРєСЂР°С‰Р°РµС‚ РґСЂРѕР±СЊ
 		numerator += integer * denominator;
 		integer = 0;
 		while(numerator !=0)
@@ -139,7 +142,7 @@ public: //паблик секция, в ней реализуем get/set методы
 		//5;
 		//1/2;
 		//2(3/4);
-		if (integer)cout << integer; //Если есть целая часть - выводим ее на экран
+		if (integer)cout << integer; //Р•СЃР»Рё РµСЃС‚СЊ С†РµР»Р°СЏ С‡Р°СЃС‚СЊ - РІС‹РІРѕРґРёРј РµРµ РЅР° СЌРєСЂР°РЅ
 		if (numerator)
 		{
 			if (integer)cout << "(";
@@ -159,9 +162,9 @@ void main()
 {
 	setlocale(LC_ALL, "ru");
 #ifdef CONSTRUCTORS_CHECK
-	Fraction A; //Здесь будет вызываться конструктор по умолчанию (default constructor) потому что значение не задано
+	Fraction A; //Р—РґРµСЃСЊ Р±СѓРґРµС‚ РІС‹Р·С‹РІР°С‚СЊСЃСЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (default constructor) РїРѕС‚РѕРјСѓ С‡С‚Рѕ Р·РЅР°С‡РµРЅРёРµ РЅРµ Р·Р°РґР°РЅРѕ
 	A.print();
-	Fraction B = 5; //здесб вызовется конструктор с одним параметром Single-argument
+	Fraction B = 5; //Р·РґРµСЃР± РІС‹Р·РѕРІРµС‚СЃСЏ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ СЃ РѕРґРЅРёРј РїР°СЂР°РјРµС‚СЂРѕРј Single-argument
 	B.print();
 	Fraction C(1, 2);
 	C.print();
