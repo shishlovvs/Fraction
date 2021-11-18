@@ -1,15 +1,13 @@
-﻿#include <iostream>
+﻿//Fraction - описываем простую дробь
+#include<iostream>
 using namespace std;
-
-//FRACTION - (дробь) описываем простую дробь
 
 class Fraction
 {
-	int integer;		//Целая часть
-	int numerator;		//Числитель
-	int denominator;	//Знаменатель
-public: //паблик секция, в ней реализуем get/set методы
-
+	int integer;        //Целая часть
+	int numerator;      //Числитель
+	int denominator;    //Знаменатель
+public:
 	int get_integer()const
 	{
 		return integer;
@@ -22,7 +20,6 @@ public: //паблик секция, в ней реализуем get/set мет
 	{
 		return denominator;
 	}
-
 	void set_integer(int integer)
 	{
 		this->integer = integer;
@@ -37,10 +34,9 @@ public: //паблик секция, в ней реализуем get/set мет
 		this->denominator = denominator;
 	}
 
-							//Constructors - идут после get/set методов
-	Fraction() //Это типа перегруженная функция для конструктора по умолчанию. Перегруженная
+	//          Constructors:
+	Fraction()
 	{
-		//Здесь все значения равны нулю
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
@@ -48,15 +44,14 @@ public: //паблик секция, в ней реализуем get/set мет
 	}
 	Fraction(int integer)
 	{
-		//single-argument constructor - конструктор с одним параметром
+		//Single-argument-constructor - конструктор с одним параметром
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
-		cout << "SingleArgConstructor:\t" << this << endl;
+		cout << "SingleArgConstructor" << this << endl;
 	}
 	Fraction(int numerator, int denominator)
 	{
-		//а здесь выводится обычная дробь без целого значения
 		this->integer = 0;
 		this->numerator = numerator;
 		set_denominator(denominator);
@@ -78,19 +73,20 @@ public: //паблик секция, в ней реализуем get/set мет
 	}
 	~Fraction()
 	{
-		cout << "Destructor:\t" << this << endl;
+		cout << "Destructor\t" << this << endl;
 	}
 
-	//OPERATOR
-
+	//           Operators:
 	Fraction& operator=(const Fraction& other)
 	{
 		this->integer = other.integer;
 		this->numerator = other.numerator;
 		this->denominator = other.denominator;
-		cout << "CopyAssigment:\t" << this << endl;
+		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
+
+	//          Compound Assignments
 	Fraction& operator+=(const Fraction& other)
 	{
 		this->integer += other.integer;
@@ -99,24 +95,98 @@ public: //паблик секция, в ней реализуем get/set мет
 		return *this;
 	}
 
-	//Операторы ввода/вывода
-	//Оператор вывода cout
-	ostream& operator << (ostream& os, const Fraction& obj)
+	Fraction& operator-=(const Fraction& other)
 	{
-		os << obj.get_integer() << "\t" << obj.get_numerator() << "\t" << obj.get_denominator();
-		return os;
+		this->integer -= other.integer;
+		this->numerator -= other.numerator;
+		this->denominator -= other.denominator;
+		return *this;
 	}
-	//оператор ввода cin
-	istream& operator >> (istream& is, Fraction& obj)
+
+	Fraction& operator*=(const Fraction& other)
 	{
-		int integer, numerator, denominator;
-		is >> integer >> numerator >> denominator;
-		obj.set_integer(integer);
-		obj.set_numerator(numerator);
-		obj.set_denominator(denominator);
-		return is;
+		this->integer *= other.integer;
+		this->numerator *= other.numerator;
+		this->denominator *= other.denominator;
+		return *this;
 	}
-	//Methods
+
+	Fraction& operator/=(const Fraction& other)
+	{
+		this->integer /= other.integer;
+		this->numerator /= other.numerator;
+		this->denominator /= other.denominator;
+		return *this;
+	}
+
+	//           Increment/Decrement
+	Fraction& operator++()    //Prefix increment
+	{
+		this->integer++;
+		this->numerator++;
+		this->denominator++;
+		return *this;
+	}
+
+	Fraction& operator++(int)  //Postfix increment
+	{
+		Fraction old = *this;
+		this->integer++;
+		this->numerator++;
+		this->denominator++;
+		return old;
+	}
+
+	Fraction& operator--()     //Prefix decrement
+	{
+		this->integer--;
+		this->numerator--;
+		this->denominator--;
+		return *this;
+	}
+
+	Fraction& operator--(int)  //Postfix decrement
+	{
+		Fraction old = *this;
+		this->integer--;
+		this->numerator--;
+		this->denominator--;
+		return old;
+	}
+
+	//                       Compaison Operators
+	bool operator==(const Fraction& other)
+	{
+		return this->integer == other.integer && this->numerator == other.numerator && this->denominator == other.denominator;
+	}
+
+	bool operator!=(const Fraction& other)
+	{
+		return !(this->integer == other.integer && this->numerator == other.numerator && this->denominator == other.denominator);
+	}
+
+	bool operator>(const Fraction& other)
+	{
+		return this->integer > other.integer && this->numerator > other.numerator && this->denominator > other.denominator;
+	}
+
+	bool operator<(const Fraction& other)
+	{
+		return this->integer < other.integer&& this->numerator < other.numerator&& this->denominator < other.denominator;
+	}
+
+	bool operator>=(const Fraction& other)
+	{
+		return this->integer >= other.integer && this->numerator >= other.numerator && this->denominator >= other.denominator;
+	}
+
+	bool operator<=(const Fraction& other)
+	{
+		return this->integer <= other.integer && this->numerator <= other.numerator && this->denominator <= other.denominator;
+	}
+
+
+	//           Methods:
 	void to_proper()
 	{
 		//Переводит дробь в правильную - выделяет целую часть:
@@ -125,28 +195,22 @@ public: //паблик секция, в ней реализуем get/set мет
 	}
 	void to_improper()
 	{
-		//Переводит дробь в неправильную - интегрирует целую часть в числитель
+		//Переводит дробь в неправильную - интегрирует целую часть в числитель:
 		numerator += integer * denominator;
 		integer = 0;
 	}
 	void reduce()
 	{
-		//сокращает дробь
-		numerator += integer * denominator;
-		integer = 0;
-		while(numerator !=0)
-		numerator = denominator;
+		//Сокращает дробь:
+
 	}
 	void print()
 	{
-		//5;
-		//1/2;
-		//2(3/4);
-		if (integer)cout << integer; //Если есть целая часть - выводим ее на экран
+		if (integer)cout << integer;    //Если есть целая часть, выводим её на экран
 		if (numerator)
 		{
 			if (integer)cout << "(";
-			cout << numerator << "/" << denominator;
+			cout << numerator << "/" << denominator;    //Если есть дробная часть, числитель делим на знаменатель
 			if (integer)cout << ")";
 		}
 		else if (integer == 0)cout << 0;
@@ -154,40 +218,24 @@ public: //паблик секция, в ней реализуем get/set мет
 	}
 };
 
-
-
-//#define CONSTRUCTROS_CHECK
-
-void main()
+//                      cin/cout
+ostream& operator<<(ostream& os, const Fraction& obj)
 {
-	setlocale(LC_ALL, "ru");
-#ifdef CONSTRUCTORS_CHECK
-	Fraction A; //Здесь будет вызываться конструктор по умолчанию (default constructor) потому что значение не задано
-	A.print();
-	Fraction B = 5; //здесб вызовется конструктор с одним параметром Single-argument
-	B.print();
-	Fraction C(1, 2);
-	C.print();
-	Fraction D(2, 3, 4);
-	D.print();
-#endif // CONSTRUCTORS_CHECK
-
-	Fraction A(14, 4);
-	A.to_proper();
-	A.print();
-	A.to_improper();
-	A.print();
-	A.reduce();
-	A.print();
-
-	
-
-	cout << A << endl;
-	cout << "Введите координаты точки А: ";
-	cin >> A;
-	cout << A << endl;
+	os << obj.get_integer() << "\t" << obj.get_numerator() << "\t" << obj.get_denominator();
+	return os;
 }
 
+istream& operator>>(istream& is, Fraction& obj)
+{
+	int integer, numerator, denominator;
+	is >> integer >> numerator >> denominator;
+	obj.set_integer(integer);
+	obj.set_numerator(numerator);
+	obj.set_denominator(denominator);
+	return is;
+}
+
+//                 Arithmetical operators
 Fraction operator+(const Fraction& left, const Fraction& right)
 {
 	Fraction buffer;
@@ -195,4 +243,66 @@ Fraction operator+(const Fraction& left, const Fraction& right)
 	buffer.set_numerator(left.get_numerator() + right.get_numerator());
 	buffer.set_denominator(left.get_denominator() + right.get_denominator());
 	return buffer;
+}
+
+Fraction operator-(const Fraction& left, const Fraction& right)
+{
+	Fraction buffer;
+	buffer.set_integer(left.get_integer() - right.get_integer());
+	buffer.set_numerator(left.get_numerator() - right.get_numerator());
+	buffer.set_denominator(left.get_denominator() - right.get_denominator());
+	return buffer;
+}
+
+Fraction operator*(const Fraction& left, const Fraction& right)
+{
+	Fraction buffer;
+	buffer.set_integer(left.get_integer() * right.get_integer());
+	buffer.set_numerator(left.get_numerator() * right.get_numerator());
+	buffer.set_denominator(left.get_denominator() * right.get_denominator());
+	return buffer;
+}
+
+Fraction operator/(const Fraction& left, const Fraction& right)
+{
+	Fraction buffer;
+	buffer.set_integer(left.get_integer() / right.get_integer());
+	buffer.set_numerator(left.get_numerator() / right.get_numerator());
+	buffer.set_denominator(left.get_denominator() / right.get_denominator());
+	return buffer;
+}
+
+//#define CONSTRUCTORS_CHECK
+
+void main()
+{
+	setlocale(LC_ALL, "");
+#ifdef CONSTRUCTORS_CHECK
+	Fraction A;     //Default constructor
+	A.print();
+	Fraction B = 5; //Single-argument constructor
+	B.print();
+	Fraction C(1, 2);
+	C.print();
+	Fraction D(2, 3, 4);
+	D.print();
+#endif // CONSTRUCTORS_CHECK
+
+	Fraction A(3, 4, 8);
+	A.to_proper();
+	A.print();
+	A.to_improper();
+	A.print();
+	A.reduce();
+	A.print();
+	cout << A << endl;
+	/*cout << "Введите целую часть, числитель и знаменатель дроби: "; cin >> A;
+	cout << A << endl;
+	Fraction B(3, 5, 1);
+	cout << B << endl;
+	Fraction C = A + B;
+	Fraction D = A >= B;
+	if (D == 1)cout << "True" << endl;
+	else cout << "False" << endl;
+	cout << D << endl;*/
 }
