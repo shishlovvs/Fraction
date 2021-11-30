@@ -187,11 +187,12 @@ public:
 
 
 	//           Methods:
-	void to_proper()
+	Fraction& to_proper()
 	{
 		//Переводит дробь в правильную - выделяет целую часть:
 		integer += numerator / denominator;
 		numerator %= denominator;
+		return *this;
 	}
 	void to_improper()
 	{
@@ -199,10 +200,39 @@ public:
 		numerator += integer * denominator;
 		integer = 0;
 	}
-	void reduce()
+	Fraction&  reduce()
 	{
 		//Сокращает дробь:
-
+		{
+			if (numerator == 0)
+			{
+				denominator = 1;
+				return *this;
+			}
+			int more;
+			int less;
+			int rest; //остаток от деления
+			if (numerator > denominator)
+			{
+				more = numerator;
+				less = denominator;
+			}
+			else
+			{
+				less = numerator;
+				more = denominator;
+			}
+			do
+			{
+				rest = more % less;
+				more = less;
+				less = rest;
+			} while (rest);
+			int GCD = more; //наибольший общий делитель
+			numerator /= GCD;
+			denominator /= GCD;
+			return to_proper();
+		}
 	}
 	void print()
 	{
